@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Acceso Denegado</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+    <div class="container mt-5 text-center">
+        <div class="alert alert-danger shadow">
+            <h1 class="display-4"><i class="fas fa-exclamation-triangle"></i> 403 - Acceso Restringido</h1>
+            <p class="lead">Lo sentimos, no tienes los permisos necesarios para ver esta sección.</p>
+            <hr>
+            <a th:href="@{/}" class="btn btn-outline-danger">Regresar al Inicio</a>
+        </div>
+    </div>
+</body>
+</html>

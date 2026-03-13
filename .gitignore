@@ -1,0 +1,12 @@
+# Archivos de configuración y secretos
+**/serviceAccountKey.json
+**/firebase/
+application.properties
+
+# Carpetas de construcción
+target/
+*.class
+
+# Otros
+.DS_Store
+nbproject/
