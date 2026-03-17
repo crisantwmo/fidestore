@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"></header>
+        
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card card-custom border-warning shadow-lg">
+                        <div class="card-header bg-warning text-dark text-center">
+                            <h3 class="font-monospace"><i class="fas fa-biohazard"></i> ACCESO RESTRINGIDO</h3>
+                        </div>
+                        <div class="card-body text-center py-4">
+                            <p class="lead">Nivel de seguridad insuficiente para esta terminal.</p>
+                            <p class="text-muted small">Por favor, contacte al administrador del sistema.</p>
+                            <br>
+                            <a th:href="@{/}" class="btn btn-outline-warning px-4">
+                                <i class="fas fa-undo"></i> VOLVER AL INICIO
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>
