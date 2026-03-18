@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <h4 class="text-neon mb-0">
+                    <i class="fas fa-box-open"></i> Catálogo de Productos
+                </h4>
+                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_VENDEDOR')"
+                   th:href="@{/producto/nuevo}" class="btn btn-warning btn-sm fw-bold">
+                    <i class="fas fa-plus-circle"></i> Publicar Producto
+                </a>
+            </div>
+
+            <div th:if="${exito}" class="alert alert-neon-success py-2" th:text="${exito}"></div>
+
+            <form th:action="@{/producto/listado}" method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control form-control-dark"
+                           th:value="${keyword}" placeholder="Buscar producto por nombre..."/>
+                    <button class="btn btn-warning" type="submit">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a th:href="@{/producto/listado}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+
+            <div th:if="${#lists.isEmpty(productos)}" class="text-center text-muted py-5">
+                <i class="fas fa-box-open fa-3x mb-3 d-block"></i>
+                No se encontraron productos.
+            </div>
+
+            <div class="row g-4" th:unless="${#lists.isEmpty(productos)}">
+                <div class="col-md-4" th:each="p : ${productos}">
+                    <div class="card-custom p-3 h-100 d-flex flex-column" style="border-radius: 8px;">
+                        <div th:if="${p.urlImagen != null and !p.urlImagen.isEmpty()}" class="mb-2 text-center">
+                            <img th:src="${p.urlImagen}" alt="Imagen producto"
+                                 style="max-height: 160px; object-fit: contain; width: 100%;"/>
+                        </div>
+                        <div th:unless="${p.urlImagen != null and !p.urlImagen.isEmpty()}"
+                             class="mb-2 text-center text-muted py-4">
+                            <i class="fas fa-gamepad fa-3x"></i>
+                        </div>
+
+                        <h6 class="text-neon" th:text="${p.nombre}">Nombre</h6>
+                        <p class="text-muted small flex-grow-1" th:text="${#strings.abbreviate(p.descripcion, 80)}">Descripción</p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="fw-bold text-warning" th:text="'$' + ${#numbers.formatDecimal(p.precio, 1, 2)}">0.00</span>
+                            <span class="badge bg-secondary" th:text="${p.categoria != null ? p.categoria.nombre : 'Sin categoría'}"></span>
+                        </div>
+
+                        <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_VENDEDOR')" class="mt-2 d-flex gap-2">
+                            <a th:href="@{/producto/editar/{id}(id=${p.idProducto})}"
+                               class="btn btn-outline-warning btn-sm flex-fill">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a th:href="@{/producto/eliminar/{id}(id=${p.idProducto})}"
+                               class="btn btn-outline-danger btn-sm flex-fill"
+                               onclick="return confirm('¿Eliminar este producto?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>

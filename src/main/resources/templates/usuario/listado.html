@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Gestión de Usuarios - FideStore</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}"/>
+    </head>
+    <body style="background-color: #121212; color: #ffcc33; font-family: sans-serif;">
+        <header style="text-align: center; padding: 20px;">
+            <h1 style="text-shadow: 0 0 10px #ffcc33;">Panel de Gestión de Usuarios</h1>
+            <a th:href="@{/}" style="color: #ffcc33; text-decoration: none; border: 1px solid #ffcc33; padding: 5px 10px; border-radius: 5px;">Volver al Inicio</a>
+        </header>
+
+        <main style="display: flex; justify-content: center; margin-top: 30px;">
+            <table border="1" style="border-collapse: collapse; width: 80%; border-color: #333; text-align: left;">
+                <thead style="background-color: #1e1e1e;">
+                    <tr>
+                        <th style="padding: 10px;">#</th>
+                        <th style="padding: 10px;">Nombre de Usuario</th>
+                        <th style="padding: 10px;">Correo Electrónico</th>
+                        <th style="padding: 10px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${usuarios}" style="border-bottom: 1px solid #333;">
+                        <td style="padding: 10px;" th:text="${u.idUsuario}"></td>
+                        <td style="padding: 10px;" th:text="${u.nombre}"></td>
+                        <td style="padding: 10px;" th:text="${u.correo}"></td>
+                        <td style="padding: 10px;">
+                            <a th:href="@{/usuario/modificar/}+${u.idUsuario}" style="color: #4CAF50;">Editar</a> | 
+                            <a th:href="@{/usuario/eliminar/}+${u.idUsuario}" style="color: #f44336;">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="text-neon mb-0">
+                    <i class="fas fa-tags"></i> Gestión de Categorías
+                </h4>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                   th:href="@{/categoria/nueva}" class="btn btn-warning btn-sm fw-bold">
+                    <i class="fas fa-plus-circle"></i> Nueva Categoría
+                </a>
+            </div>
+
+            <div th:if="${exito}" class="alert alert-neon-success py-2" th:text="${exito}"></div>
+
+            <div th:if="${#lists.isEmpty(categorias)}" class="text-center text-muted py-5">
+                <i class="fas fa-tags fa-3x mb-3 d-block"></i>
+                No hay categorías registradas.
+            </div>
+
+            <div class="table-responsive" th:unless="${#lists.isEmpty(categorias)}">
+                <table class="table table-dark-custom table-borderless">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Productos</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="cat : ${categorias}">
+                            <td th:text="${cat.idCategoria}"></td>
+                            <td class="text-warning fw-bold" th:text="${cat.nombre}"></td>
+                            <td class="text-muted" th:text="${cat.descripcion}"></td>
+                            <td>
+                                <span class="badge bg-secondary"
+                                      th:text="${cat.productos != null ? #lists.size(cat.productos) : 0} + ' productos'"></span>
+                            </td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                <div class="d-flex gap-2">
+                                    <a th:href="@{/categoria/editar/{id}(id=${cat.idCategoria})}"
+                                       class="btn btn-outline-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/categoria/eliminar/{id}(id=${cat.idCategoria})}"
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('¿Eliminar esta categoría?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>

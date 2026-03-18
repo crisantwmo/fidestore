@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+    <head th:fragment="head">
+        <title>FideStore | Vintage Hardware</title>
+        <meta charset="UTF-8"/>
+        <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/6.5.1/css/all.min.css}" rel="stylesheet"/>
+        <style>
+            body { background-color: #0d0d0d; color: #e0e0e0; font-family: 'Courier New', Courier, monospace; }
+            .navbar-custom { background-color: #1a1a1a; border-bottom: 2px solid #ffc107; }
+            .text-neon { color: #ffc107; text-shadow: 0 0 5px #ffc107; }
+            .card-custom { background: #1a1a1a; border: 1px solid #333; }
+            .logo-header { max-width: 150px; filter: drop-shadow(0 0 10px #ffc107); }
+            .table-dark-custom { background-color: #1a1a1a; color: #e0e0e0; }
+            .table-dark-custom thead { background-color: #111; border-bottom: 2px solid #ffc107; }
+            .table-dark-custom tbody tr:hover { background-color: #252525; }
+            .btn-neon { border: 1px solid #ffc107; color: #ffc107; background: transparent; transition: 0.3s; }
+            .btn-neon:hover { background: #ffc107; color: #0d0d0d; box-shadow: 0 0 10px #ffc107; }
+            .form-control-dark { background-color: #1a1a1a; border: 1px solid #444; color: #e0e0e0; }
+            .form-control-dark:focus { background-color: #1a1a1a; border-color: #ffc107; color: #e0e0e0; box-shadow: 0 0 5px #ffc10755; }
+            .alert-neon-success { background-color: #1a2a1a; border: 1px solid #28a745; color: #28a745; }
+            .alert-neon-danger  { background-color: #2a1a1a; border: 1px solid #dc3545; color: #dc3545; }
+        </style>
+    </head>
+
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <div class="container">
+                <a class="navbar-brand text-neon" th:href="@{/}">
+                    <i class="fas fa-microchip"></i> FIDESTORE
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/producto/listado}">
+                                <i class="fas fa-box-open"></i> Productos
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_VENDEDOR')">
+                            <a class="nav-link" th:href="@{/categoria/listado}">
+                                <i class="fas fa-tags"></i> Categorías
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="nav-link" th:href="@{/usuario/listado}">
+                                <i class="fas fa-users-cog"></i> Usuarios
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link btn btn-outline-warning btn-sm me-2" th:href="@{/registro}">
+                                <i class="fas fa-user-plus"></i> Registrarse
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link btn btn-outline-warning btn-sm" th:href="@{/login}">
+                                <i class="fas fa-sign-in-alt"></i> Ingresar
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                            <a class="nav-link dropdown-toggle text-neon" href="#" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                <span sec:authentication="name">Usuario</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/perfil}">
+                                        <i class="fas fa-id-card"></i> Mi Perfil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider border-secondary"></li>
+                                <li>
+                                    <form th:action="@{/logout}" method="post">
+                                        <button class="dropdown-item text-danger" type="submit">
+                                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <footer th:fragment="footer" class="text-center py-4 mt-5 border-top border-secondary">
+        <p class="text-muted small">&copy; 2026 FideStore - Vintage Hardware Collection</p>
+        <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+    </footer>
+
+</html>
