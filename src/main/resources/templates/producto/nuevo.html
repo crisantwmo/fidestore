@@ -13,43 +13,50 @@
                             <span th:text="${producto.idProducto != null} ? 'Editar Producto' : 'Publicar Producto'">Producto</span>
                         </h4>
 
-                        <form th:action="@{/producto/guardar}" method="post" th:object="${producto}">
-                            <input type="hidden" th:field="*{idProducto}"/>
+                        <form th:action="@{/producto/guardar}" method="post">
+                            <input type="hidden" name="idProducto" th:value="${producto.idProducto}"/>
 
                             <div class="mb-3">
                                 <label class="form-label text-muted small">Nombre del producto *</label>
-                                <input type="text" th:field="*{nombre}" class="form-control form-control-dark"
+                                <input type="text" name="nombre" th:value="${producto.nombre}"
+                                       class="form-control form-control-dark"
                                        placeholder="Ej: Nintendo NES restaurado" required/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-muted small">Descripción *</label>
-                                <textarea th:field="*{descripcion}" class="form-control form-control-dark"
-                                          rows="3" placeholder="Descripción detallada del producto" required></textarea>
+                                <textarea name="descripcion" class="form-control form-control-dark"
+                                          rows="3" placeholder="Descripción detallada del producto"
+                                          required th:text="${producto.descripcion}"></textarea>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-muted small">Precio (USD) *</label>
-                                    <input type="number" th:field="*{precio}" class="form-control form-control-dark"
+                                    <input type="number" name="precio" th:value="${producto.precio}"
+                                           class="form-control form-control-dark"
                                            step="0.01" min="0" placeholder="0.00" required/>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-muted small">Stock *</label>
-                                    <input type="number" th:field="*{stock}" class="form-control form-control-dark"
+                                    <input type="number" name="stock" th:value="${producto.stock}"
+                                           class="form-control form-control-dark"
                                            min="0" placeholder="1" required/>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-muted small">URL de imagen</label>
-                                <input type="text" th:field="*{urlImagen}" class="form-control form-control-dark"
+                                <input type="text" name="urlImagen" th:value="${producto.urlImagen}"
+                                       class="form-control form-control-dark"
                                        placeholder="https://..."/>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label text-muted small">Categoría</label>
-                                <select th:field="*{categoria.idCategoria}" class="form-select form-control-dark">
+                                <select name="categoriaId" class="form-select form-control-dark">
                                     <option value="">-- Sin categoría --</option>
                                     <option th:each="cat : ${categorias}"
                                             th:value="${cat.idCategoria}"
-                                            th:text="${cat.nombre}">Categoría</option>
+                                            th:text="${cat.nombre}"
+                                            th:selected="${producto.categoria != null and producto.categoria.idCategoria == cat.idCategoria}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="d-flex gap-2">

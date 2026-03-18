@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -21,6 +23,8 @@ public class Categoria implements Serializable {
 
     private String descripcion;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
 }

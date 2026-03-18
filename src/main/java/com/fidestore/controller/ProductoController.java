@@ -1,18 +1,15 @@
 package com.fidestore.controller;
 
+import com.fidestore.domain.Categoria;
 import com.fidestore.domain.Producto;
-import com.fidestore.domain.Usuario;
 import com.fidestore.service.CategoriaService;
 import com.fidestore.service.ProductoService;
-import com.fidestore.service.UsuarioService;
-import java.security.Principal;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +25,6 @@ public class ProductoController {
 
     @Autowired
     private CategoriaService categoriaService;
-
-    @Autowired
-    private UsuarioService usuarioService;
 
     @GetMapping("/listado")
     public String listado(Model model, @RequestParam(required = false) String keyword) {
@@ -57,9 +51,35 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Producto producto, Principal principal, RedirectAttributes redirectAttrs) {
-        Optional<Usuario> vendedor = usuarioService.findByCorreo(principal.getName());
-        vendedor.ifPresent(producto::setVendedor);
+    public String guardar(@RequestParam(required = false) Long idProducto,
+                          @RequestParam String nombre,
+                          @RequestParam String descripcion,
+                          @RequestParam BigDecimal precio,
+                          @RequestParam Integer stock,
+                          @RequestParam(required = false) String urlImagen,
+                          @RequestParam(required = false) Long categoriaId,
+                          RedirectAttributes redirectAttrs) {
+
+        Producto producto = idProducto != null
+                ? productoService.getProducto(idProducto)
+                : new Producto();
+
+        if (producto == null) producto = new Producto();
+
+        producto.setNombre(nombre);
+        producto.setDescripcion(descripcion);
+        producto.setPrecio(precio);
+        producto.setStock(stock);
+        producto.setUrlImagen(urlImagen);
+        producto.setActivo(true);
+
+        if (categoriaId != null) {
+            Categoria cat = categoriaService.getCategoria(categoriaId);
+            producto.setCategoria(cat);
+        } else {
+            producto.setCategoria(null);
+        }
+
         productoService.save(producto);
         redirectAttrs.addFlashAttribute("exito", "Producto guardado correctamente.");
         return "redirect:/producto/listado";

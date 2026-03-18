@@ -24,11 +24,20 @@ public class PerfilController {
 
     @GetMapping("/perfil")
     public String verPerfil(Model model, Principal principal) {
-        Optional<Usuario> opt = usuarioService.findByCorreo(principal.getName());
+        String username = principal.getName();
+        Optional<Usuario> opt = usuarioService.findByCorreo(username);
+
         if (opt.isEmpty()) {
-            return "redirect:/";
+            Usuario temporal = new Usuario();
+            temporal.setNombre(username);
+            temporal.setCorreo(username);
+            temporal.setRol("N/A");
+            model.addAttribute("usuario", temporal);
+            model.addAttribute("soloLectura", true);
+        } else {
+            model.addAttribute("usuario", opt.get());
+            model.addAttribute("soloLectura", false);
         }
-        model.addAttribute("usuario", opt.get());
         return "perfil";
     }
 
@@ -41,7 +50,8 @@ public class PerfilController {
 
         Optional<Usuario> opt = usuarioService.findByCorreo(principal.getName());
         if (opt.isEmpty()) {
-            return "redirect:/";
+            redirectAttrs.addFlashAttribute("error", "No se puede editar este perfil.");
+            return "redirect:/perfil";
         }
 
         Usuario usuario = opt.get();
