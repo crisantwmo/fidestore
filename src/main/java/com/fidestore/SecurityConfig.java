@@ -1,4 +1,4 @@
-package com.fidestore; 
+package com.fidestore;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,33 +14,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // En com.fidestore.SecurityConfig.java
     public static final String[] PUBLIC_URL = {
-        "/", 
-        "/index", 
-        "/js/**", 
-        "/css/**", 
-        "/webjars/**", 
-        "/login", 
+        "/",
+        "/index",
+        "/registro",
+        "/js/**",
+        "/css/**",
+        "/webjars/**",
+        "/login",
         "/acceso_denegado",
-        "/static/images/**", 
-        "/images/**"         
+        "/static/images/**",
+        "/images/**",
+        "/producto/listado"
     };
-    
-    // Rutas para el carrito (Cliente)
-    public static final String[] USUARIO_URL = {"/carrito/**", "/facturar/**"};
-    
-    // Rutas para gestión (Admin y Vendedor)
-    public static final String[] GESTION_URL = {"/producto/listado", "/categoria/listado"};
-    
-    // Rutas exclusivas de Admin
-    public static final String[] ADMIN_URL = {"/usuario/**", "/producto/**", "/categoria/**"};
+
+    public static final String[] USUARIO_URL = {"/carrito/**", "/facturar/**", "/perfil"};
+
+    public static final String[] GESTION_URL = {"/producto/**", "/categoria/listado"};
+
+    public static final String[] ADMIN_URL = {"/usuario/**", "/categoria/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers(PUBLIC_URL).permitAll()
-                .requestMatchers(USUARIO_URL).hasRole("USUARIO")
+                .requestMatchers(USUARIO_URL).hasAnyRole("USUARIO", "VENDEDOR", "ADMIN")
                 .requestMatchers(GESTION_URL).hasAnyRole("ADMIN", "VENDEDOR")
                 .requestMatchers(ADMIN_URL).hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -64,7 +62,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService users(PasswordEncoder passwordEncoder) {
-        // Los mismos 3 usuarios de prueba que definimos para 'tienda'
         UserDetails juan = User.builder()
                 .username("juan").password(passwordEncoder.encode("123")).roles("ADMIN").build();
         UserDetails rebeca = User.builder()

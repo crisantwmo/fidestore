@@ -6,34 +6,53 @@
         <header th:replace="~{general/fragmentos :: header}"></header>
 
         <main class="container py-5">
-            <div class="glass-card text-center p-5 shadow-lg" style="background: rgba(26, 26, 26, 0.9); border-radius: 15px; border: 1px solid #333;">
-                
-                <h1 class="text-neon display-4 font-monospace">SISTEMA FIDESTORE</h1>
-                <p class="text-muted italic">Marketplace de Hardware Vintage & Coleccionables</p>
-                
+            <div class="text-center p-5 shadow-lg" style="background: rgba(26,26,26,0.9); border-radius: 15px; border: 1px solid #333;">
+
+                <h1 class="text-neon display-4 font-monospace">
+                    <i class="fas fa-microchip"></i> FIDESTORE
+                </h1>
+                <p class="text-muted">Marketplace de Hardware Vintage &amp; Coleccionables</p>
                 <hr class="border-secondary my-4">
 
-                <div class="actions-container">
-                    <div sec:authorize="!isAuthenticated()">
-                        <p class="mb-4">Terminal en modo lectura. Identifíquese para operar.</p>
-                        <a th:href="@{/login}" class="btn btn-warning btn-lg px-5 shadow">
-                            <i class="fas fa-terminal"></i> INGRESAR AL SISTEMA
+                <div sec:authorize="!isAuthenticated()">
+                    <p class="mb-4">Terminal en modo lectura. Identifíquese para operar.</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a th:href="@{/login}" class="btn btn-warning btn-lg px-5">
+                            <i class="fas fa-terminal"></i> Ingresar al Sistema
+                        </a>
+                        <a th:href="@{/registro}" class="btn btn-outline-warning btn-lg px-5">
+                            <i class="fas fa-user-plus"></i> Crear Cuenta
                         </a>
                     </div>
+                    <hr class="border-secondary my-4">
+                    <a th:href="@{/producto/listado}" class="btn btn-outline-secondary">
+                        <i class="fas fa-search"></i> Ver Catálogo
+                    </a>
+                </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <p class="mb-4">
-                            Bienvenido, <span class="text-neon" th:text="${#authentication.name}">Usuario</span>.
-                        </p>
-
-                        <div class="d-flex justify-content-center gap-3">
-                            <a th:href="@{/producto/listado}" class="btn btn-outline-warning">
-                                <i class="fas fa-box"></i> Inventario
-                            </a>
-                            <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/usuario/listado}" class="btn btn-warning">
-                                <i class="fas fa-users-cog"></i> Gestión Usuarios
-                            </a>
-                        </div>
+                <div sec:authorize="isAuthenticated()">
+                    <p class="mb-4">
+                        Bienvenido, <span class="text-neon fw-bold" sec:authentication="name">Usuario</span>.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a th:href="@{/producto/listado}" class="btn btn-outline-warning">
+                            <i class="fas fa-box-open"></i> Catálogo
+                        </a>
+                        <a th:href="@{/perfil}" class="btn btn-outline-warning">
+                            <i class="fas fa-id-card"></i> Mi Perfil
+                        </a>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_VENDEDOR')"
+                           th:href="@{/producto/nuevo}" class="btn btn-outline-warning">
+                            <i class="fas fa-plus-circle"></i> Publicar Producto
+                        </a>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_VENDEDOR')"
+                           th:href="@{/categoria/listado}" class="btn btn-outline-warning">
+                            <i class="fas fa-tags"></i> Categorías
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')"
+                           th:href="@{/usuario/listado}" class="btn btn-warning">
+                            <i class="fas fa-users-cog"></i> Gestión Usuarios
+                        </a>
                     </div>
                 </div>
             </div>

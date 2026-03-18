@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head>
         <title>FideStore - Iniciar Sesión</title>
@@ -8,48 +7,68 @@
         <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/6.5.1/css/all.min.css}" rel="stylesheet"/>
         <style>
-            body { background-color: #f8f9fa; }
-            .login-container { max-width: 400px; margin-top: 100px; }
+            body { background-color: #0d0d0d; color: #e0e0e0; font-family: 'Courier New', Courier, monospace; }
+            .login-container { max-width: 420px; margin: 80px auto; }
+            .card-dark { background-color: #1a1a1a; border: 1px solid #ffc107; border-radius: 10px; }
+            .form-control-dark { background-color: #111; border: 1px solid #444; color: #e0e0e0; }
+            .form-control-dark:focus { background-color: #111; border-color: #ffc107; color: #e0e0e0; box-shadow: 0 0 5px #ffc10755; }
+            .form-control-dark::placeholder { color: #555; }
         </style>
     </head>
     <body>
         <div class="container login-container">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white text-center">
-                    <h4><i class="fas fa-lock"></i> Iniciar Sesión</h4>
-                </div>
-                <div class="card-body">
-                    <div th:if="${param.error}" class="alert alert-danger">
-                        Usuario o contraseña incorrectos.
-                    </div>
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        Has salido de la sesión con éxito.
-                    </div>
+            <div class="text-center mb-4">
+                <h2 class="text-warning"><i class="fas fa-microchip"></i> FIDESTORE</h2>
+                <p class="text-muted small">Acceso al sistema</p>
+            </div>
+            <div class="card-dark p-4 shadow">
+                <h5 class="text-center text-warning mb-4"><i class="fas fa-lock"></i> Iniciar Sesión</h5>
 
-                    <form th:action="@{/login}" method="post">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Usuario</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="juan" required autofocus/>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="***" required/>
-                            </div>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt"></i> Entrar
-                            </button>
-                        </div>
-                    </form>
+                <div th:if="${param.error}" class="alert alert-danger py-2">
+                    <i class="fas fa-exclamation-circle"></i> Usuario o contraseña incorrectos.
                 </div>
-                <div class="card-footer text-center">
-                    <a th:href="@{/}" class="text-decoration-none text-muted small">Volver al inicio</a>
+                <div th:if="${param.logout}" class="alert alert-success py-2">
+                    <i class="fas fa-check-circle"></i> Sesión cerrada exitosamente.
+                </div>
+                <div th:if="${exito}" class="alert alert-success py-2" th:text="${exito}"></div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Usuario</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-warning">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" name="username" class="form-control form-control-dark"
+                                   placeholder="usuario" required autofocus/>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-muted small">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-warning">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <input type="password" name="password" class="form-control form-control-dark"
+                                   placeholder="***" required/>
+                        </div>
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-warning fw-bold">
+                            <i class="fas fa-sign-in-alt"></i> Ingresar
+                        </button>
+                    </div>
+                </form>
+
+                <hr class="border-secondary">
+                <div class="text-center small">
+                    <span class="text-muted">¿No tienes cuenta?</span>
+                    <a th:href="@{/registro}" class="text-warning text-decoration-none ms-1">Regístrate aquí</a>
+                </div>
+                <div class="text-center mt-2">
+                    <a th:href="@{/}" class="text-muted small text-decoration-none">
+                        <i class="fas fa-arrow-left"></i> Volver al inicio
+                    </a>
                 </div>
             </div>
         </div>

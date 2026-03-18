@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card-custom p-4 shadow" style="border-radius: 10px;">
+                        <h4 class="text-neon mb-4 text-center">
+                            <i class="fas fa-user-plus"></i> Crear Cuenta
+                        </h4>
+
+                        <div th:if="${error}" class="alert alert-neon-danger py-2" th:text="${error}"></div>
+
+                        <form th:action="@{/registro}" method="post" th:object="${usuario}">
+                            <div class="mb-3">
+                                <label class="form-label text-muted small">Nombre completo</label>
+                                <input type="text" th:field="*{nombre}" class="form-control form-control-dark"
+                                       placeholder="Tu nombre" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small">Correo electrónico</label>
+                                <input type="email" th:field="*{correo}" class="form-control form-control-dark"
+                                       placeholder="correo@ejemplo.com" required/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label text-muted small">Contraseña</label>
+                                <input type="password" th:field="*{contrasena}" class="form-control form-control-dark"
+                                       placeholder="Mínimo 6 caracteres" required minlength="6"/>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-warning fw-bold">
+                                    <i class="fas fa-check-circle"></i> Registrarse
+                                </button>
+                            </div>
+                        </form>
+
+                        <hr class="border-secondary">
+                        <div class="text-center small">
+                            <span class="text-muted">¿Ya tienes cuenta?</span>
+                            <a th:href="@{/login}" class="text-warning text-decoration-none ms-1">Iniciar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>

@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class UsuarioController {
-    
+
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
-    public String inicio(Model model) {
-        var usuarios = usuarioService.getUsuarios();
-        model.addAttribute("usuarios", usuarios);
-        return "usuarios"; 
+    @GetMapping("/usuario/listado")
+    public String listado(Model model) {
+        model.addAttribute("usuarios", usuarioService.getUsuarios());
+        return "usuario/usuarios";
     }
-    
+
     @GetMapping("/")
     public String index() {
         return "index";
