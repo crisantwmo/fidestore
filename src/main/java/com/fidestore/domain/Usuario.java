@@ -29,7 +29,6 @@ public class Usuario implements Serializable {
 
     public Usuario() {}
 
-    // Getters para que Thymeleaf encuentre los datos
     public Long getIdUsuario() { return idUsuario; }
     public String getUsername() { return username; }
     public String getNombre() { return username; }
