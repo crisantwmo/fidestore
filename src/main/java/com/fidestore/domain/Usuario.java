@@ -16,21 +16,21 @@ public class Usuario implements Serializable {
     @Column(name="id_usuario")
     private Long idUsuario;
     
-    private String nombre;
+    @Column(name="nombre") 
+    private String username;   
+
+    @Column(name="contrasena") 
+    private String password;   
+
     private String correo;
-    private String contrasena;
-    private String rol; 
-
-    public Usuario() {
-    }
-
-    public Usuario(String nombre, String correo, String contrasena) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasena = contrasena;
-    }
     
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
+    @Transient
+    private String rutaImagen; 
+
+    public Usuario() {}
+
+    // Getters para que Thymeleaf encuentre los datos
+    public Long getIdUsuario() { return idUsuario; }
+    public String getUsername() { return username; }
+    public String getNombre() { return username; }
 }

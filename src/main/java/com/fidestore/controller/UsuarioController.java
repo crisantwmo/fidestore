@@ -5,22 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/usuario") // Esto agrupa todo bajo /usuario
 public class UsuarioController {
     
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
-    public String inicio(Model model) {
+    // Ahora la ruta completa es /usuario/listado
+    @GetMapping("/listado")
+    public String listado(Model model) {
         var usuarios = usuarioService.getUsuarios();
         model.addAttribute("usuarios", usuarios);
-        return "usuarios"; 
-    }
-    
-    @GetMapping("/")
-    public String index() {
-        return "index";
+        // Retorna el archivo que está en templates/usuario/listado.html
+        return "/usuario/listado"; 
     }
 }

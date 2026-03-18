@@ -23,7 +23,8 @@ public class SecurityConfig {
         "/webjars/**", 
         "/login", 
         "/acceso_denegado",
-        "/static/images/**", 
+        "/static/images/**",
+        "/registro/**",
         "/images/**"         
     };
     
