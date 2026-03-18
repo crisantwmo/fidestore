@@ -15,6 +15,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long idUsuario;
+<<<<<<< HEAD
 
     private String nombre;
     private String correo;
@@ -34,3 +35,23 @@ public class Usuario implements Serializable {
         return idUsuario;
     }
 }
+=======
+    
+    @Column(name="nombre") 
+    private String username;   
+
+    @Column(name="contrasena") 
+    private String password;   
+
+    private String correo;
+    
+    @Transient
+    private String rutaImagen; 
+
+    public Usuario() {}
+
+    public Long getIdUsuario() { return idUsuario; }
+    public String getUsername() { return username; }
+    public String getNombre() { return username; }
+}
+>>>>>>> 1cec6c828a55946f962a8aeb349aefdcf03a1ea2

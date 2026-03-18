@@ -24,8 +24,13 @@ public class SecurityConfig {
         "/login",
         "/acceso_denegado",
         "/static/images/**",
+<<<<<<< HEAD
         "/images/**",
         "/producto/listado"
+=======
+        "/registro/**",
+        "/images/**"         
+>>>>>>> 1cec6c828a55946f962a8aeb349aefdcf03a1ea2
     };
 
     public static final String[] USUARIO_URL = {"/carrito/**", "/facturar/**", "/perfil"};
