@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Pirata+One&display=swap" rel="stylesheet">
+</head>
+<body class="bg-dark d-flex align-items-center justify-content-center" style="min-height: 100vh; padding: 20px;">
+
+    <div class="card shadow-lg" style="max-width: 600px; width: 100%; background: #f4e4bc; border: 15px solid #2c1b18; border-image: url('https://www.transparenttextures.com/patterns/dark-leather.png') 30 round; position: relative; color: #2c1b18;">
+        
+        <div style="padding: 40px; background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');">
+            
+            <div class="text-center mb-4">
+                <h1 style="font-family: 'Pirata One', cursive; font-size: 3.5rem; margin-bottom: 0;">Dragonstone</h1>
+                <p style="font-family: 'MedievalSharp', cursive; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #2c1b18; display: inline-block; padding-bottom: 5px;">Recibo de la Forja</p>
+            </div>
+
+            <div class="row mb-4" style="font-family: 'MedievalSharp', cursive; font-size: 0.9rem;">
+                <div class="col-6">
+                    <strong>EMITIDO EL:</strong> <span th:text="${#dates.format(fecha, 'dd/MM/yyyy HH:mm')}"></span><br>
+                    <strong>ORDEN:</strong> #DS-<span th:text="${#numbers.formatInteger(T(java.lang.Math).random() * 10000, 4)}"></span>
+                </div>
+                <div class="col-6 text-end">
+                    <strong>CLIENTE:</strong> <span sec:authentication="name">Aventurero</span>
+                </div>
+            </div>
+
+            <table class="table table-sm border-dark" style="color: #2c1b18; font-family: 'MedievalSharp', cursive;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #2c1b18;">
+                        <th>Descripción del Tesoro</th>
+                        <th class="text-end">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}" style="border-bottom: 1px dashed #8b7355;">
+                        <td th:text="${item.titulo}">Nombre del Juego</td>
+                        <td class="text-end" th:text="${'₡' + item.precio}">0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-end mt-4" style="font-family: 'Pirata One', cursive; font-size: 1.5rem;">
+                <p>TOTAL ORO: <span style="font-size: 2.2rem; border-bottom: 3px double #2c1b18;" th:text="${'₡' + total}">0.00</span></p>
+            </div>
+
+            <div class="text-center mt-5" style="font-family: 'MedievalSharp', cursive; font-style: italic;">
+                <p>"Que tus armas nunca se mellen y tus pociones siempre estén llenas."</p>
+                <div class="mt-4 no-print">
+                    <button onclick="window.print()" class="btn btn-dark btn-sm me-2">Imprimir Pergamino</button>
+                    <a th:href="@{/gameshop/listado}" class="btn btn-outline-dark btn-sm">Volver a la Forja</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+        }
+    </style>
+</body>
+</html>

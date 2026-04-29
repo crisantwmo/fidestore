@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dragonstone - Tu Cargamento</title>
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #1a1a1a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar-dragon { background-color: #000; border-bottom: 2px solid #e63946; }
+        .logo-text { color: #e63946; font-weight: bold; font-size: 1.5rem; }
+        .cart-title { color: #e63946; margin-top: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .table-dragon { background-color: #2b2d42; border-radius: 10px; overflow: hidden; border: none; }
+        .table-dragon thead { background-color: #e63946; color: white; }
+        .total-section { background-color: #000; border: 1px solid #e63946; padding: 20px; border-radius: 10px; }
+        .price-text { color: #ffb703; font-weight: bold; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-dragon p-3">
+        <div class="container">
+            <span class="logo-text">DRAGONSTONE</span>
+            <a th:href="@{/gameshop/listado}" class="btn btn-outline-danger btn-sm">Volver a la Forja</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="cart-title text-center"><i class="bi bi-cart4"></i> Tu Cargamento</h2>
+        
+        <div class="table-responsive mt-4">
+            <table class="table table-dark table-hover table-dragon">
+                <thead>
+                    <tr>
+                        <th>Tesoro</th>
+                        <th>Valor</th>
+                        <th class="text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${itemsCarrito}">
+                        <td th:text="${item.titulo}"></td>
+                        <td class="price-text" th:text="${'$' + item.precio}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/carrito/eliminar/{id}(id=${item.idVideojuego})}" class="btn btn-outline-warning btn-sm">
+                                <i class="bi bi-trash"></i> Soltar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${itemsCarrito == null or itemsCarrito.empty}">
+                        <td colspan="3" class="text-center text-muted p-5">Tu cargamento está vacío, viajero.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row justify-content-end mt-4">
+            <div class="col-md-4 text-end">
+                <div class="total-section">
+                    <h4>TOTAL: <span class="price-text" th:text="${'$' + total}"></span></h4>
+                    <form th:action="@{/carrito/facturar}" method="POST" class="mt-3">
+                        <button type="submit" class="btn btn-danger w-100 fw-bold">
+                            GENERAR PERGAMINO DE VENTA
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

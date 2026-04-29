@@ -1,0 +1,37 @@
+/* Color rubí personalizado */
+:root {
+    --ruby-red: #e63946;
+    --dark-bg: #121212;
+}
+
+/* El cuerpo de la página un poco más oscuro */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Personalización del Navbar */
+.navbar {
+    background-color: var(--dark-bg) !important;
+    border-bottom: 3px solid var(--ruby-red);
+}
+
+.navbar-brand {
+    color: var(--ruby-red) !important;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(230, 57, 70, 0.3);
+}
+
+/* Botones con estilo rubí */
+.btn-ruby {
+    background-color: var(--ruby-red);
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-ruby:hover {
+    background-color: #b91d2a;
+    box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+    color: white;
+}

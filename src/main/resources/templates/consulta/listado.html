@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}"></head>
+    <body class="bg-light">
+        <header th:replace="~{layout/plantilla :: header}"></header>
+
+        <div class="container mt-5">
+            <div class="card border-danger shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"><i class="bi bi-search"></i> Consulta de Videojuegos por Precio</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/consulta/query}" method="POST" class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Precio Mínimo</label>
+                            <input type="number" step="0.01" name="precioInf" th:value="${precioInf}" class="form-control" placeholder="Ej: 10.00" required/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Precio Máximo</label>
+                            <input type="number" step="0.01" name="precioSup" th:value="${precioSup}" class="form-control" placeholder="Ej: 60.00" required/>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-danger w-100 fw-bold">
+                                <i class="bi bi-filter"></i> Filtrar Resultados
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4" th:if="${juegos != null and !juegos.empty}">
+                <h3 class="text-dark mb-3">Resultados encontrados:</h3>
+                <div class="table-responsive shadow-sm">
+                    <table class="table table-hover table-bordered border-danger">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Título</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="juego, contador : ${juegos}">
+                                <td th:text="${contador.count}"></td>
+                                <td th:text="${juego.titulo}" class="fw-bold"></td>
+                                <td th:text="'$' + ${juego.precio}" class="text-danger fw-bold"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div th:if="${juegos != null and juegos.empty}" class="alert alert-warning mt-4 text-center shadow-sm">
+                <i class="bi bi-exclamation-triangle-fill"></i> No se encontraron juegos en ese rango de precio.
+            </div>
+        </div>
+
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+        <div th:replace="~{layout/plantilla :: scripts}"></div>
+    </body>
+</html>
